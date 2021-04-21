@@ -1,0 +1,36 @@
+name: NBA model retrain
+
+on:
+  schedule:
+  - cron: "0 10 * * *"
+
+  workflow_dispatch:
+
+jobs:
+  active_tenants_json:    
+    runs-on: ubuntu-latest
+    
+
+    steps:
+      - id: set-matrix
+        run: echo "::set-output name=matrix::{\"include\":[{\"project\":\"foo\",\"config\":\"Debug\"},{\"project\":\"bar\",\"config\":\"Release\"}]}"      
+
+  run_model_trainings:
+    needs: active_tenants_json
+    
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        package: ${{ fromJson(needs.active_tenants_json.outputs.matrix) }}
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: build docker image
+        run: docker build -t nba .
+
+      - name: Run a multi-line script
+        run: |
+          echo Add other actions to build,
+          echo test, and deploy your project.
