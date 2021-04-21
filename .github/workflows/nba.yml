@@ -21,4 +21,4 @@ jobs:
     strategy:
       matrix: ${{fromJSON(needs.active_tenants_json.outputs.matrix)}}
     steps:
-    - run: echo "here"
+    - run: echo  ${{ matrix.project }}
