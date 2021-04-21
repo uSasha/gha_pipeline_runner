@@ -21,16 +21,10 @@ jobs:
     runs-on: ubuntu-latest
 
     strategy:
-      matrix:
-        package: ${{ fromJson(needs.active_tenants_json.outputs.matrix) }}
+      matrix: ${{ fromJson(needs.active_tenants_json.outputs.matrix) }}
 
     steps:
       - uses: actions/checkout@v2
 
       - name: build docker image
         run: docker build -t nba .
-
-      - name: Run a multi-line script
-        run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
