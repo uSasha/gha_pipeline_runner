@@ -19,6 +19,6 @@ jobs:
     needs: active_tenants_json
     runs-on: ubuntu-latest
     strategy:
-      matrix: ${{fromJSON(needs.job1.outputs.matrix)}}
+      matrix: ${{fromJSON(needs.active_tenants_json.outputs.matrix)}}
     steps:
     - run: echo "here"
