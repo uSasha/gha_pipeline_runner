@@ -24,4 +24,4 @@ jobs:
     - name: some_step
       env: 
         TENANT: ${{ matrix.tenant }}
-      run: echo  "$TENANT"
+      run: echo  $TENANT
