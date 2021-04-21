@@ -7,24 +7,17 @@ on:
   workflow_dispatch:
 
 jobs:
-  active_tenants_json:    
+  job1:
     runs-on: ubuntu-latest
-    
-
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
-      - id: set-matrix
-        run: echo "::set-output name=matrix::{\"include\":[{\"project\":\"foo\",\"config\":\"Debug\"},{\"project\":\"bar\",\"config\":\"Release\"}]}"
-
-  run_model_trainings:
-    needs: active_tenants_json
-    
+    - id: set-matrix
+      run: echo "::set-output name=matrix::{\"include\":[{\"project\":\"foo\",\"config\":\"Debug\"},{\"project\":\"bar\",\"config\":\"Release\"}]}"
+  job2:
+    needs: job1
     runs-on: ubuntu-latest
-
     strategy:
-      matrix: ${{ fromJson(needs.active_tenants_json.outputs.matrix) }}
-
+      matrix: ${{fromJSON(needs.job1.outputs.matrix)}}
     steps:
-      - uses: actions/checkout@v2
-
-      - name: build docker image
-        run: docker build -t nba .
+    - run: build
