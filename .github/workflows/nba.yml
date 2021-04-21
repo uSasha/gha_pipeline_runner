@@ -7,17 +7,18 @@ on:
   workflow_dispatch:
 
 jobs:
-  job1:
+  active_tenants_json:
     runs-on: ubuntu-latest
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
     - id: set-matrix
       run: echo "::set-output name=matrix::{\"include\":[{\"project\":\"foo\",\"config\":\"Debug\"},{\"project\":\"bar\",\"config\":\"Release\"}]}"
-  job2:
-    needs: job1
+  
+  run_model_trainings:
+    needs: active_tenants_json
     runs-on: ubuntu-latest
     strategy:
       matrix: ${{fromJSON(needs.job1.outputs.matrix)}}
     steps:
-    - run: build
+    - run: echo "here"
