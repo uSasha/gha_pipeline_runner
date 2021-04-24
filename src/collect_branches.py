@@ -11,11 +11,10 @@ template_end = '}'
 if __name__ == '__main__':
     resp = requests.get(CONFIG_URL)
 
-    print(resp.status_code)
-    print(resp.reason)
-
-    data = resp.json()['data']
-    tenants = [{'tenant': tenant['id']} for tenant in data]
+    if resp.ok:
+        tenants = [{'tenant': tenant['id']} for tenant in resp.json()['data']]
+    else:
+        tenants = [{'tenant': i} for i in range(3)]
 
     print(
         template_start + json.dumps(tenants) + template_end,
