@@ -12,7 +12,16 @@ jobs:
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
 
+
     steps:
+    - uses: actions/checkout@v2
+
+    - name: build_image
+      run: docker build -t worker .
+
+    - name: collect_branches
+      run: docker run worker python collect_branches.py
+
     - id: set-matrix
       run: echo "::set-output name=matrix::{\"include\":[{\"tenant\":\"foo\",\"config\":\"Debug\"},{\"tenant\":\"bar\",\"config\":\"Release\"}]}"
 
