@@ -1,4 +1,4 @@
-name: NBA model retrain
+name: Pipelines
 
 on:
   schedule:
