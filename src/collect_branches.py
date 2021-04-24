@@ -11,6 +11,9 @@ template_end = '}'
 if __name__ == '__main__':
     resp = requests.get(CONFIG_URL)
 
+    print(resp.status_code)
+    print(resp.reason)
+
     data = resp.json()['data']
     tenants = [{'tenant': tenant['id']} for tenant in data]
 
