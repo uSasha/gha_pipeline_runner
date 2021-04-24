@@ -20,6 +20,9 @@ jobs:
   run_model_trainings:
     needs: active_tenants_json
     runs-on: ubuntu-latest
+    container:
+      env:
+        TENANT: ${{ matrix.tenant }}
     strategy:
       matrix: ${{fromJSON(needs.active_tenants_json.outputs.matrix)}}
 
@@ -29,7 +32,7 @@ jobs:
     - name: build_image
       run: docker build -t worker .
 
-    - name: build_image
+    - name: run_task
       env:
         TENANT: ${{ matrix.tenant }}
       run: docker run worker
