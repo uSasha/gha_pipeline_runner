@@ -21,7 +21,10 @@ jobs:
     strategy:
       matrix: ${{fromJSON(needs.active_tenants_json.outputs.matrix)}}
     steps:
-    - name: some_step
-      env: 
+    - name: build_image
+      run: docker build -t worker .
+
+    - name: build_image
+      env:
         TENANT: ${{ matrix.tenant }}
-      run: echo  "$TENANT"
+      run: docker run worker
