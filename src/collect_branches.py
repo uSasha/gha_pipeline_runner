@@ -12,11 +12,11 @@ if __name__ == '__main__':
     resp = requests.get(CONFIG_URL)
 
     if resp.ok:
-        tenants = [{'tenant': tenant['id']} for tenant in resp.json()['data']]
+        branches = [{'branch': branch['id']} for branch in resp.json()['data']]
     else:
-        tenants = [{'tenant': i} for i in range(3)]
+        branches = [{'branch': i} for i in range(3)]
 
     print(
-        template_start + json.dumps(tenants) + template_end,
+        template_start + json.dumps(branches) + template_end,
         file=sys.stdout
     )

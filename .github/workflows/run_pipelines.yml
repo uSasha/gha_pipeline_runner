@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  active_tenants_json:
+  collect_branches:
     runs-on: ubuntu-latest
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
@@ -23,12 +23,12 @@ jobs:
       run: docker run worker python collect_branches.py
 
 
-  run_model_trainings:
-    needs: active_tenants_json
+  execute_branches:
+    needs: collect_branches
     runs-on: ubuntu-latest
 
     strategy:
-      matrix: ${{fromJSON(needs.active_tenants_json.outputs.matrix)}}
+      matrix: ${{fromJSON(needs.collect_branches.outputs.matrix)}}
 
     steps:
     - uses: actions/checkout@v2
@@ -37,4 +37,4 @@ jobs:
       run: docker build -t worker .
 
     - name: run_task
-      run: docker run --env TENANT=${{ matrix.tenant }} worker
+      run: docker run --env BRANCH=${{ matrix.branch }} worker
