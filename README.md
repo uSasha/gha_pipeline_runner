@@ -6,3 +6,6 @@ The second job `execute_branches` will run multiple times with the name of the b
 container as ENV variable, so here is a way to set different config, etc.
 
 [Here](https://github.com/uSasha/gha_dag_runner/actions/runs/781111060) is an example of multipipelines run.
+
+
+However, there is a (caveat)[https://github.community/t/re-run-jobs/16145]: if one of the branches fails, there is no way to restart it. You will have to rerun all jobs.
